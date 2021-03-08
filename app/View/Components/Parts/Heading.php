@@ -23,10 +23,13 @@ class Heading extends Component
 
     public $class;
 
-    public function __construct($type='h1')
+    public function __construct($type='h1', $class=null)
     {
         $this->type=$type;
-        $this->class= array_key_exists($type,$this->style) ? $this->style[$type] : null;
+        $this->class= array_key_exists($type, $this->style) ? $this->style[$type] : null;
+        if (isset($class)) {
+            $this->class = $this->class . " " .$class;
+        }
     }
 
     /**

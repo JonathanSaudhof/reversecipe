@@ -5,18 +5,22 @@ namespace App\Http\Livewire\Recipes;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use App\Classes\Spoonacular;
+use Dotenv\Exception\ValidationException;
 
 class Show extends Component
 {
-    public $recipes=null;
+    public $recipes;
     public $ingredient;
     private $spoonacular;
-    public $ingredientsList=[];
+    public $ingredientsList;
 
     public function __construct()
     {
         $this->spoonacular = new Spoonacular();
+        $this->recipes=null;
+        $this->ingredientsList=array();
     }
+
 
     public function mount()
     {
@@ -33,12 +37,22 @@ class Show extends Component
     public function clear()
     {
         $this->ingredientsList=array();
+        $this->recipes=null;
         $this->ingredient="";
     }
 
     public function searchRecipes()
     {
-        $this->recipes = $this->spoonacular->getReciepeForIngredient(implode(", ", $this->ingredientsList));
+        $data=$this->validate([
+            'ingredientsList'=> 'required'
+            ]);
+        // dump($data['ingredientsList']);
+        $result= $this->spoonacular->getReciepeForIngredient(implode(", ", $data['ingredientsList']));
+        if (sizeof($result)===0) {
+            dump('no recipes found');
+        } else {
+            $this->recipes=$result;
+        }
     }
 
     public function removeFromIngredientsList($ingredientId)
