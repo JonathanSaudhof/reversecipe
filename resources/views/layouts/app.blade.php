@@ -10,7 +10,9 @@
 </head>
 
 <body class="antialiased">
-    @yield('content')
+    <x-layout.master>
+        @yield('content')
+    </x-layout.master>
     @livewireScripts
 </body>
 

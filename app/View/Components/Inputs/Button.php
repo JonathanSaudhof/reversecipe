@@ -16,8 +16,8 @@ class Button extends Component
     public function __construct($version)
     {
         $styles=[
-            "primary"=> "border border-solid rounded border-blue-400 bg-blue-400 text-white p-2 font-bold",
-            "secondary"=> "border border-solid rounded border-gray-400 bg-gray-400 text-white p-2 font-bold"
+            "primary"=> "border border-solid rounded border-blue-400 bg-blue-400 text-white p-2 font-bold shadow-md",
+            "secondary"=> "border border-solid rounded border-gray-400 bg-gray-400 text-white p-2 font-bold shadow-md"
         ];
 
         if (isset($styles[$version])) {

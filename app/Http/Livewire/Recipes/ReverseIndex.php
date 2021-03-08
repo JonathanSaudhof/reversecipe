@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire\Recipes;
 
-use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use App\Classes\Spoonacular;
-use Dotenv\Exception\ValidationException;
+use Illuminate\Support\Facades\Session;
 
-class Show extends Component
+class ReverseIndex extends Component
 {
     public $recipes;
     public $ingredient;
@@ -24,6 +23,15 @@ class Show extends Component
 
     public function mount()
     {
+        $ingredientListsInSession = Session::get('ingredientsList') ?? null;
+        $recipesInSession = Session::get('recipes') ?? null;
+
+        if (isset($ingredientListsInSession)) {
+            $this->ingredientsList=$ingredientListsInSession;
+        }
+        if (isset($ingredientListsInSession)) {
+            $this->recipes = $recipesInSession;
+        }
     }
 
     public function addToIngredientsList()
@@ -31,14 +39,18 @@ class Show extends Component
         $input = trim(trim($this->ingredient, " "));
         if (strlen($input)>0) {
             array_push($this->ingredientsList, $input);
+            $this->updateSession('ingredientsList');
         }
         $this->ingredient="";
     }
+
     public function clear()
     {
         $this->ingredientsList=array();
         $this->recipes=null;
         $this->ingredient="";
+        $this->updateSession('ingredientsList');
+        $this->updateSession('recipes');
     }
 
     public function searchRecipes()
@@ -46,24 +58,33 @@ class Show extends Component
         $data=$this->validate([
             'ingredientsList'=> 'required'
             ]);
-        // dump($data['ingredientsList']);
+
         $result= $this->spoonacular->getReciepeForIngredient(implode(", ", $data['ingredientsList']));
         if (sizeof($result)===0) {
             dump('no recipes found');
         } else {
             $this->recipes=$result;
+            $this->updateSession('recipes');
         }
     }
+
 
     public function removeFromIngredientsList($ingredientId)
     {
         if ($ingredientId >=0 && $ingredientId <= sizeof($this->ingredientsList)) {
             unset($this->ingredientsList[$ingredientId]);
         }
+        $this->updateSession('ingredientsList');
+    }
+
+    private function updateSession($key)
+    {
+        $objectVars = get_object_vars($this);
+        Session::put($key, $objectVars[$key]);
     }
 
     public function render()
     {
-        return view('livewire.recipes.show');
+        return view('livewire.recipes.reverse-index');
     }
 }

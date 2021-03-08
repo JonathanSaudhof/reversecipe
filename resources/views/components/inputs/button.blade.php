@@ -1,2 +1,1 @@
-@props(['class'])
-<button {{ $attributes }} class="{{ $style ? $style : '' }} {{ $class ?? '' }}">{{ $slot }}</button>
+<button {{ $attributes->merge(['class' => $style]) }} {{ $attributes }}>{{ $slot }}</button>
