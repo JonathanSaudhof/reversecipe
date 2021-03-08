@@ -27,7 +27,7 @@ class Spoonacular
     {
         try {
             $response = $this->client->get("/recipes/findByIngredients", ["query"=>['apiKey'=>$this->apiKey,'ingredients'=>$ingredients]]);
-            $recipes = json_decode($response->getBody());
+            $recipes = json_decode($response->getBody()->getContents(), true);
             return $recipes;
         } catch (RequestException $e) {
             dump($e);

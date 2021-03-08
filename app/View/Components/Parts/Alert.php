@@ -3,27 +3,17 @@
 namespace App\View\Components\Parts;
 
 use Illuminate\View\Component;
-use Mockery\Undefined;
 
-class Heading extends Component
+class Alert extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-
-    public $type;
-
-    // Here you add the associated styles
-    public $style=[
-        'h1'=>'text-6xl font-bold',
-        'h2'=>'text-2xl font-bold',
-    ];
-
-    public function __construct($type='h1')
+    public function __construct()
     {
-        $this->type=$type;
+        //
     }
 
     /**
@@ -33,6 +23,6 @@ class Heading extends Component
      */
     public function render()
     {
-        return view('components.parts.heading');
+        return view('components.parts.alert');
     }
 }
