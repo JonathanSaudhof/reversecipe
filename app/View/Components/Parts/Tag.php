@@ -21,7 +21,7 @@ class Tag extends Component
 
         $color=$styles[$type] ?? "gray";
         // dd($color);
-        $this->style="border border-solid rounded border-{$color}-400 border-2 text-{$color}-500 px-2 py-1 ";
+        $this->style="border border-solid rounded border-{$color}-400 border-2 text-{$color}-500 px-2 py-1 whitespace-nowrap";
     }
 
     /**
