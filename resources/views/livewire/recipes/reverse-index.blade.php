@@ -1,4 +1,4 @@
-<div class="w-3/5 relative mx-auto flex flex-col items-center">
+<div class="w-full">
     <x-parts.alert />
     <x-parts.heading class="my-8 text-gray-600">
         REV◀️cipe 👩🏼‍🍳 </x-parts.heading>
@@ -44,13 +44,14 @@
     <div class="text-xl font-bold my-4 w-full text-left">Recipes:</div>
     {{-- {{ dump($recipes) }} --}}
     @if (isset($recipes))
-        <div class="grid grid-cols-3 gap-8">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             @foreach ($recipes as &$item)
-                <x-recipe.card :recipe="$item" />
+                <a href="/recipe/{{ $item['id'] }}">
+                    <x-recipe.card :recipe="$item" />
+                </a>
             @endforeach
         </div>
     @else
         <span class="w-full italic text-gray-400 text-left">No recipes!</span>
-
     @endif
 </div>

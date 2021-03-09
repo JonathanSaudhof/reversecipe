@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+
+Route::get('/', \App\Http\Livewire\Recipes\ReverseIndex::class);
+Route::get('/recipe/{recipe}', \App\Http\Livewire\Recipes\Show::class);
