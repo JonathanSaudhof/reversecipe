@@ -24,8 +24,7 @@
                     @foreach ($ingredientSearchResult as $item)
                         <div class="flex items-center space-x-4 cursor-pointer"
                             wire:click="takeSearchResult('{{ $item['name'] }}')">
-                            <img src="https://spoonacular.com/cdn/ingredients_100x100/{{ $item['image'] }}" width="30"
-                                height="30" class="h-8 w-8" />
+                            <img src="{{ env('SPOON_IIU') . $item['image'] }}" width="30" height="30" class="h-8 w-8" />
                             <span>{{ $item['name'] }}</span>
                         </div>
                     @endforeach

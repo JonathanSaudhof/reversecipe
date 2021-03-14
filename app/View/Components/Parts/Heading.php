@@ -17,7 +17,7 @@ class Heading extends Component
 
     // Here you add the associated styles
     public $style=[
-        'h1'=>'text-6xl font-bold',
+        'h1'=>'text-4xl font-bold',
         'h2'=>'text-2xl font-bold',
     ];
 
