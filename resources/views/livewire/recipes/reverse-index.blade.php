@@ -4,17 +4,37 @@
         REV◀️cipe 👩🏼‍🍳 </x-parts.heading>
     <x-parts.heading type="h2" class="italic text-gray-400 mb-8">Search your recipes by ingredients
     </x-parts.heading>
-    <div
-        class="flex  justify-items-stretch border rounded w-full my-8 focus:border-gray-500  md:border border-solid border-gray-500 overflow-hidden">
-        <input wire:model.debounce.300ms="ingredient" placeholder="Your ingredient"
-            wire:keydown.enter="addToIngredientsList" type="text" class="flex-auto w-4/5 px-4 py-4 " />
-        <button class="w-1/8 px-8 font-bold z-10 text-gray-100  whitespace-nowrap  bg-gray-500"
-            wire:click="addToIngredientsList()">+ Add
-        </button>
+    <div class="my-8">
+        <div
+            class="flex  justify-items-stretch border rounded w-full  focus:border-gray-500  md:border border-solid border-gray-500 overflow-hidden">
+            <div class="flex-auto relative">
+                <input wire:model.debounce.300ms="search" placeholder="Your ingredient"
+                    wire:keydown.enter="addToIngredientsList" type="text" class="flex-auto w-full px-4 py-4 " />
+            </div>
+            <button class="w-1/8 px-8 font-bold z-10 text-gray-100  whitespace-nowrap  bg-gray-500"
+                wire:click="addToIngredientsList()">+ Add
+            </button>
+            {{-- @dump($ingredientSearchResult) --}}
+        </div>
+
+        @if (isset($ingredientSearchResult))
+            <div class="relative bg-white border border-gray-500 rounded-b">
+                {{-- @dump($ingredientSearchResult) --}}
+                <div class="absolute top-0 flex flex-col z-10 bg-white w-full p-4 space-y-4">
+                    @foreach ($ingredientSearchResult as $item)
+                        <div class="flex items-center space-x-4 cursor-pointer"
+                            wire:click="takeSearchResult('{{ $item['name'] }}')">
+                            <img src="https://spoonacular.com/cdn/ingredients_100x100/{{ $item['image'] }}" width="30"
+                                height="30" class="h-8 w-8" />
+                            <span>{{ $item['name'] }}</span>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
-
     <div class="text-xl font-bold my-8  w-full text-left">Ingredients:</div>
-
+    {{--  --}}
     <div class="w-full py-8">
         @if (sizeof($ingredientsList) > 0)
             <div class="flex w-full">

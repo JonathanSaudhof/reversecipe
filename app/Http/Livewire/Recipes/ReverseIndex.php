@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Session;
 class ReverseIndex extends Component
 {
     public $recipes;
-    public $ingredient;
-    private $spoonacular;
+    public $ingredientSearchResult;
     public $ingredientsList;
+    public $search;
+    public $searching=false;
+    private $spoonacular;
+
 
     public function __construct()
     {
@@ -19,7 +22,6 @@ class ReverseIndex extends Component
         $this->recipes=null;
         $this->ingredientsList=array();
     }
-
 
     public function mount()
     {
@@ -29,26 +31,41 @@ class ReverseIndex extends Component
         if (isset($ingredientListsInSession)) {
             $this->ingredientsList=$ingredientListsInSession;
         }
+
         if (isset($ingredientListsInSession)) {
             $this->recipes = $recipesInSession;
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->searching=true;
+        $this->ingredientSearchResult = $this->spoonacular->searchIngredients($this->search);
+    }
+
+    public function takeSearchResult($ingredient)
+    {
+        $this->search=$ingredient;
+        $this->ingredientSearchResult=null;
+        $this->searching=false;
+    }
+
     public function addToIngredientsList()
     {
-        $input = trim(trim($this->ingredient, " "));
+        $input = trim(trim($this->search, " "));
         if (strlen($input)>0) {
             array_push($this->ingredientsList, $input);
             $this->updateSession('ingredientsList');
         }
-        $this->ingredient="";
+        $this->search="";
+        $this->ingredientSearchResult=null;
     }
 
     public function clear()
     {
         $this->ingredientsList=array();
         $this->recipes=null;
-        $this->ingredient="";
+        $this->search="";
         $this->updateSession('ingredientsList');
         $this->updateSession('recipes');
     }
